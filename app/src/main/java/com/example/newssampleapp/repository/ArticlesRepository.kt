@@ -9,10 +9,11 @@ import com.example.newssampleapp.network.Constants.Companion.DEFAULT_SORT_BY
 import com.example.newssampleapp.network.NetworkManager
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import javax.inject.Inject
 
-class ArticlesRepository : BaseRepository() {
+class ArticlesRepository @Inject constructor() : BaseRepository() {
     @WorkerThread
-     suspend fun getDefaultNewsArticles(apiKey: String = API_KEY): Article? {
+    suspend fun getDefaultNewsArticles(apiKey: String = API_KEY): Article? {
         return withContext(Dispatchers.IO) {
             NetworkManager.getInstance().getNetworkClient()?.getNewsArticles(
                 searchString = DEFAULT_SEARCH_STRING,

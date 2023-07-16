@@ -8,11 +8,18 @@ import com.example.newssampleapp.model.ResponseDto
 import com.example.newssampleapp.network.Constants.Companion.ARTICLES_RESPONSE
 import com.example.newssampleapp.network.Constants.Companion.ARTICLES_RESPONSE_FAILED
 import com.example.newssampleapp.repository.ArticlesRepository
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class ArticleListScreenViewModel(application: Application) : BaseViewModel(application) {
+@AndroidEntryPoint
+class ArticleListScreenViewModel @Inject constructor(application: Application) :
+    BaseViewModel(application) {
+
+    @Inject
+    lateinit var repository: ArticlesRepository
 
     private val responseLiveData = MutableLiveData<ResponseDto>()
 
@@ -20,7 +27,7 @@ class ArticleListScreenViewModel(application: Application) : BaseViewModel(appli
     fun getArticles() {
         CoroutineScope(Dispatchers.IO).launch {
             val result = kotlin.runCatching {
-                ArticlesRepository().getDefaultNewsArticles()
+                repository.getDefaultNewsArticles()
             }
             if (result.isSuccess) {
                 val response = getArticlesResponseDto(result.getOrNull())
