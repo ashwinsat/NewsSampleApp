@@ -3,7 +3,7 @@ package com.example.newssampleapp.ui
 import android.app.Application
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
-import com.example.newssampleapp.model.Article
+import com.example.newssampleapp.model.NewsList
 import com.example.newssampleapp.model.ResponseDto
 import com.example.newssampleapp.network.Constants.Companion.ARTICLES_RESPONSE
 import com.example.newssampleapp.network.Constants.Companion.ARTICLES_RESPONSE_FAILED
@@ -40,7 +40,7 @@ class ArticleListScreenViewModel @Inject constructor(application: Application) :
         }
     }
 
-    private fun getArticlesResponseDto(article: Article?): ResponseDto {
+    private fun getArticlesResponseDto(article: NewsList?): ResponseDto {
         val responseDto = ResponseDto()
         responseDto.identifier = ARTICLES_RESPONSE
         responseDto.payload = article
