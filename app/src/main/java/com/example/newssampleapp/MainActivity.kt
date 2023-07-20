@@ -168,7 +168,7 @@ class MainActivity : ComponentActivity() {
                     Text(
                         text = "${article?.title}",
                         fontSize = TextUnit(16.0F, TextUnitType.Sp),
-                        color = MaterialTheme.colorScheme.onSecondary
+                        color = MaterialTheme.colorScheme.onTertiary // MaterialTheme.colorScheme.onSecondary
                     )
 
 
