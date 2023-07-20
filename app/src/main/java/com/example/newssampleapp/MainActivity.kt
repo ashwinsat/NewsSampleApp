@@ -209,7 +209,8 @@ class MainActivity : ComponentActivity() {
                 }
             },
             colors = TopAppBarDefaults.smallTopAppBarColors(
-                containerColor = MaterialTheme.colorScheme.primary
+                containerColor = MaterialTheme.colorScheme.primary,
+                navigationIconContentColor = MaterialTheme.colorScheme.onPrimary
             )
         )
     }
