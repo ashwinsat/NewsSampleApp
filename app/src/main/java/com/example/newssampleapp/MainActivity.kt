@@ -3,8 +3,14 @@
 package com.example.newssampleapp
 
 import android.os.Bundle
+import android.util.Log
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.viewModels
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -24,12 +30,21 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
+import com.example.newssampleapp.network.Constants.Companion.ARTICLES_RESPONSE
+import com.example.newssampleapp.network.Constants.Companion.ARTICLES_RESPONSE_FAILED
+import com.example.newssampleapp.ui.ArticleListScreenViewModel
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.example.newssampleapp.ui.theme.NewsSampleAppTheme
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 @OptIn(ExperimentalMaterial3Api::class)
 class MainActivity : ComponentActivity() {
+
+    private val viewModel: ArticleListScreenViewModel by viewModels()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         // LaunchedEffect(key1 = , block = )
         super.onCreate(savedInstanceState)
@@ -43,6 +58,22 @@ class MainActivity : ComponentActivity() {
                         ContentBody(padding)
                     }
                 )
+            }
+        }
+        listenToViewModel()
+        viewModel.getArticles()
+    }
+
+    private fun listenToViewModel() {
+        viewModel.getResponseLiveData().observe(this) {
+            Log.d("MainActivity", "Response received")
+            when (it.identifier) {
+                ARTICLES_RESPONSE -> {
+                    Toast.makeText(this, "Fetched articles successfully", Toast.LENGTH_LONG).show()
+                }
+                ARTICLES_RESPONSE_FAILED -> {
+                    Toast.makeText(this, "Fetched articles failed", Toast.LENGTH_LONG).show()
+                }
             }
         }
     }
